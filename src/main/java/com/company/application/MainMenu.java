@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class MainMenu {
     private Scanner scanner;
+    private int loggedUserId = -1;
 
     public MainMenu() {
         this.scanner = new Scanner(System.in);
@@ -29,8 +30,9 @@ public class MainMenu {
                     userController.registerUser();
                     break;
                 case "1":
-                    login();
-                    if(userController.loginUser()) {
+                	login();
+                    this.loggedUserId = userController.loginUser();
+                    if(this.loggedUserId != -1) {
                         displayEventMenu();
                     }
                     break;
@@ -56,7 +58,8 @@ public class MainMenu {
             System.out.println("1 - Cadastrar novo evento");
             System.out.println("2 - Listar eventos");
             System.out.println("3 - Editar evento");
-            System.out.println("4 - Voltar");
+            System.out.println("4 - Adicionar Usuário ao Evento");
+            System.out.println("5 - Voltar");
              
          	System.out.print("Escolha uma opção: ");
             String choice = scanner.nextLine();
@@ -71,6 +74,13 @@ public class MainMenu {
                 	eventView.displayEditEventForm();
                     break;
                 case "4":
+                	if(this.loggedUserId != -1) {
+                        eventView.registerUserToEvent(this.loggedUserId);
+                    } else {
+                        System.out.println("Nenhum usuário logado.");
+                    }
+                    break;
+                case "5": 
                     continueInEventMenu = false;
                     break;
                 default:

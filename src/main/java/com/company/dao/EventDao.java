@@ -10,7 +10,6 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
 
-
 public class EventDao {
 
     public boolean saveEvent(Event event) {

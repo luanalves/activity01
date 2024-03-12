@@ -2,7 +2,6 @@ package com.company.dao;
 
 import com.company.model.User;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -29,8 +28,8 @@ public class UserDao {
         return rowInserted;
     }
     
-    public boolean authenticateUser(String username, String password) {
-        String sql = "SELECT password FROM users WHERE username = ? LIMIT 1";
+    public int authenticateUser(String username, String password) {
+        String sql = "SELECT entity_id, password FROM users WHERE username = ? LIMIT 1";
         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
@@ -38,23 +37,21 @@ public class UserDao {
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
                     String storedPasswordHash = resultSet.getString("password");
-                    return BCrypt.checkpw(password, storedPasswordHash);
+                    if (BCrypt.checkpw(password, storedPasswordHash)) {
+                        return resultSet.getInt("entity_id");
+                    }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return -1;
     }
+
     
     private String hashFunction(String password) {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         return hashedPassword;
     }
-
-//    public boolean checkUserLogin(String username, String password) {
-//        String hashedPasswordFromDb = "..."; 
-//        return BCrypt.checkpw(password, hashedPasswordFromDb);
-//    }
 }

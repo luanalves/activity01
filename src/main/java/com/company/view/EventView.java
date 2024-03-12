@@ -1,6 +1,7 @@
 package com.company.view;
 
 import com.company.controller.EventController;
+import com.company.controller.UserEventController;
 import java.util.Scanner;
 import com.company.model.Event;
 import java.util.List;
@@ -10,6 +11,12 @@ public class EventView {
 
     private Scanner scanner = new Scanner(System.in);
     private EventController eventController = new EventController();
+    private UserEventController userEventController;
+    
+    public EventView(UserEventController userEventController) {
+        this.scanner = new Scanner(System.in);
+        this.userEventController = userEventController;
+    }
 
     public void displayAddEventForm() {
         System.out.println("### Adicionar Novo Evento ###");
@@ -44,7 +51,7 @@ public class EventView {
     
     public void displayEditEventForm() {
         System.out.println("Digite o ID do evento que deseja editar:");
-        int eventId = Integer.parseInt(scanner.nextLine()); // Assuma a entrada válida ou adicione tratamento de erro
+        int eventId = Integer.parseInt(scanner.nextLine());
 
         Event event = eventController.getEventById(eventId);
         if (event == null) {
@@ -74,6 +81,28 @@ public class EventView {
         } else {
             System.out.println("Falha ao atualizar o evento.");
         }
+    }
+    
+    public void registerUserToEvent(int userId) {
+        List<Event> events = userEventController.listAvailableEvents();
+        if (events.isEmpty()) {
+            System.out.println("Não há eventos disponíveis.");
+            return;
+        }
 
+        for (int i = 0; i < events.size(); i++) {
+            System.out.println((i + 1) + " - " + events.get(i).getTitle());
+        }
+
+        System.out.print("Escolha um evento para se inscrever: ");
+        int eventChoice = scanner.nextInt() - 1;
+        scanner.nextLine();
+
+        if (eventChoice >= 0 && eventChoice < events.size()) {
+            Event selectedEvent = events.get(eventChoice);
+            userEventController.registerUserToEvent(userId, selectedEvent.getEntityId());
+        } else {
+            System.out.println("Escolha inválida.");
+        }
     }
 }

@@ -21,6 +21,4 @@ public class EventCategoryView {
             System.out.println("Failed to save the event category.");
         }
     }
-
-    // Métodos adicionais para interações de usuário
 }
