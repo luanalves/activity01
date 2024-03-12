@@ -2,15 +2,21 @@ package com.company.application;
 
 import com.company.view.UserView;
 import com.company.controller.UserController;
+import com.company.controller.UserEventController;
+import com.company.dao.EventDao;
+import com.company.dao.UserEventDao;
 import com.company.view.EventView;
 import java.util.Scanner;
 
 public class MainMenu {
-    private Scanner scanner;
+	private Scanner scanner;
     private int loggedUserId = -1;
+    private UserEventController userEventController;
+    
 
     public MainMenu() {
         this.scanner = new Scanner(System.in);
+        this.userEventController = new UserEventController();
     }
 
     public void displayMenu() {
@@ -50,7 +56,7 @@ public class MainMenu {
     }
     
     private void displayEventMenu() {
-        EventView eventView = new EventView();
+    	EventView eventView = new EventView(userEventController);
         
         boolean continueInEventMenu = true;
         while (continueInEventMenu) {
