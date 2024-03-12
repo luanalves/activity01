@@ -23,5 +23,9 @@ public class UserEventController {
     public List<Event> listEventsForUser(int userId) {
         return userEventDao.findEventsByUserId(userId);
     }
+    
+    public boolean removeUserFromEvent(int userId, int eventId) {
+        return userEventDao.removeUserFromEvent(userId, eventId);
+    }
 
 }

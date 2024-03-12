@@ -35,4 +35,13 @@ public class UserEventView {
             userEventController.registerUserToEvent(userId, events.get(eventChoice - 1).getEntityId());
         }
     }
+    
+    public void removeUserFromEvent(int userId, int eventId) {
+        boolean removed = userEventController.removeUserFromEvent(userId, eventId);
+        if (removed) {
+            System.out.println("Usuário removido do evento com sucesso!");
+        } else {
+            System.out.println("Falha ao remover o usuário do evento.");
+        }
+    }
 }

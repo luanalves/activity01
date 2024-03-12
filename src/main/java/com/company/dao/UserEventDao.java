@@ -55,4 +55,22 @@ public class UserEventDao {
 
         return events;
     }
+    
+    public boolean removeUserFromEvent(int userId, int eventId) {
+        String sql = "DELETE FROM user_events WHERE user_id = ? AND event_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userId);
+            statement.setInt(2, eventId);
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

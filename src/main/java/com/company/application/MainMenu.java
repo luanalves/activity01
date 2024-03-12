@@ -3,20 +3,21 @@ package com.company.application;
 import com.company.view.UserView;
 import com.company.controller.UserController;
 import com.company.controller.UserEventController;
-import com.company.dao.EventDao;
-import com.company.dao.UserEventDao;
 import com.company.view.EventView;
+import com.company.view.UserEventView;
 import java.util.Scanner;
 
 public class MainMenu {
 	private Scanner scanner;
     private int loggedUserId = -1;
     private UserEventController userEventController;
+    private UserEventView userEventView;
     
 
     public MainMenu() {
         this.scanner = new Scanner(System.in);
         this.userEventController = new UserEventController();
+        this.userEventView = new UserEventView(userEventController);
     }
 
     public void displayMenu() {
@@ -66,7 +67,8 @@ public class MainMenu {
             System.out.println("3 - Editar evento");
             System.out.println("4 - Adicionar Usuário ao Evento");
             System.out.println("5 - Listar meus eventos registrados");
-            System.out.println("6 - Voltar");
+            System.out.println("6 - Remover da lista de eventos");
+            System.out.println("7 - Voltar");
              
          	System.out.print("Escolha uma opção: ");
             String choice = scanner.nextLine();
@@ -95,6 +97,16 @@ public class MainMenu {
                     }
                     break;
                 case "6":
+                    if (this.loggedUserId != -1) {
+                        System.out.print("Digite o ID do evento do qual deseja remover o usuário: ");
+                        int eventIdToRemove = scanner.nextInt();
+                        scanner.nextLine(); 
+                        userEventView.removeUserFromEvent(this.loggedUserId, eventIdToRemove);
+                    } else {
+                        System.out.println("Nenhum usuário logado.");
+                    }
+                    break;
+                case "7":
                     continueInEventMenu = false;
                     break;
                 default:
