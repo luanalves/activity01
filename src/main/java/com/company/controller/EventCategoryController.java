@@ -11,6 +11,4 @@ public class EventCategoryController {
         EventCategory eventCategory = new EventCategory(title, description);
         return eventCategoryDao.saveEventCategory(eventCategory);
     }
-
-    // Métodos adicionais conforme necessário
 }

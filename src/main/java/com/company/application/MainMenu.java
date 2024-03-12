@@ -2,6 +2,7 @@ package com.company.application;
 
 import com.company.view.UserView;
 import com.company.controller.UserController;
+import com.company.view.EventView;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -29,7 +30,9 @@ public class MainMenu {
                     break;
                 case "1":
                     login();
-                    userController.loginUser();
+                    if(userController.loginUser()) {
+                        displayEventMenu();
+                    }
                     break;
                 case "2":
                     System.out.println("Saindo...");
@@ -41,9 +44,38 @@ public class MainMenu {
     }
 
     private void login() {
-        // Implemente a lógica de login aqui
         System.out.println("Realizando login...");
     }
     
-    // Outros métodos, se necessário
+    private void displayEventMenu() {
+        EventView eventView = new EventView();
+        
+        boolean continueInEventMenu = true;
+        while (continueInEventMenu) {
+        	System.out.println("\nMenu de Eventos:");
+            System.out.println("1 - Cadastrar novo evento");
+            System.out.println("2 - Listar eventos");
+            System.out.println("3 - Editar evento");
+            System.out.println("4 - Voltar");
+             
+         	System.out.print("Escolha uma opção: ");
+            String choice = scanner.nextLine();
+            switch (choice) {
+                case "1":
+                    eventView.displayAddEventForm();
+                    break;
+                case "2":
+                	eventView.displayEventsList();  
+                    break;
+                case "3":
+                	eventView.displayEditEventForm();
+                    break;
+                case "4":
+                    continueInEventMenu = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
 }

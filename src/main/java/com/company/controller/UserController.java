@@ -19,15 +19,17 @@ public class UserController {
         view.displayUserRegistered();
     }
     
-    public void loginUser() {
+    public boolean loginUser() {
         User user = view.getUserLogin();
 
         boolean isAuthenticated = userDao.authenticateUser(user.getUsername(), user.getPassword());
 
         if (isAuthenticated) {
             view.displayLoginSuccess();
+            return true;
         } else {
             view.displayLoginFailure();
+            return false;
         }
     }
 }

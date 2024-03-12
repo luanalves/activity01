@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.dao.EventDao;
 import com.company.model.Event;
+import java.util.List;
 
 public class EventController {
 
@@ -11,6 +12,16 @@ public class EventController {
         Event event = new Event(title, description);
         return eventDao.saveEvent(event);
     }
-
-    // Métodos adicionais para manipulação de eventos
+    
+    public List<Event> listEvents() {
+        return eventDao.getAllEvents();
+    }
+    
+    public boolean editEvent(Event event) {
+        return eventDao.updateEvent(event);
+    }
+    
+    public Event getEventById(int id) {
+        return eventDao.getEventById(id);
+    }
 }

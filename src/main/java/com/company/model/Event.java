@@ -9,10 +9,8 @@ public class Event {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Construtor padrão
     public Event() {}
 
-    // Construtor com todos os parâmetros
     public Event(int entityId, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.entityId = entityId;
         this.title = title;
@@ -21,13 +19,11 @@ public class Event {
         this.updatedAt = updatedAt;
     }
 
-    // Construtor para novos eventos (sem entityId, createdAt, updatedAt)
     public Event(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
-    // Getters
     public int getEntityId() {
         return entityId;
     }
@@ -48,7 +44,6 @@ public class Event {
         return updatedAt;
     }
 
-    // Setters
     public void setEntityId(int entityId) {
         this.entityId = entityId;
     }
