@@ -19,4 +19,9 @@ public class UserEventController {
     public List<Event> listAvailableEvents() {
         return eventDao.getAllEvents();
     }
+    
+    public List<Event> listEventsForUser(int userId) {
+        return userEventDao.findEventsByUserId(userId);
+    }
+
 }

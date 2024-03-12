@@ -105,4 +105,16 @@ public class EventView {
             System.out.println("Escolha inválida.");
         }
     }
+    
+    public void displayRegisteredEvents(int userId) {
+        List<Event> registeredEvents = userEventController.listEventsForUser(userId);
+        if (registeredEvents.isEmpty()) {
+            System.out.println("Você não está registrado em nenhum evento.");
+        } else {
+            System.out.println("### Eventos Registrados ###");
+            for (Event event : registeredEvents) {
+                System.out.println("ID: " + event.getEntityId() + ", Título: " + event.getTitle() + ", Descrição: " + event.getDescription());
+            }
+        }
+    }
 }

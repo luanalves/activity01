@@ -62,10 +62,11 @@ public class MainMenu {
         while (continueInEventMenu) {
         	System.out.println("\nMenu de Eventos:");
             System.out.println("1 - Cadastrar novo evento");
-            System.out.println("2 - Listar eventos");
+            System.out.println("2 - Listar todos os eventos");
             System.out.println("3 - Editar evento");
             System.out.println("4 - Adicionar Usuário ao Evento");
-            System.out.println("5 - Voltar");
+            System.out.println("5 - Listar meus eventos registrados");
+            System.out.println("6 - Voltar");
              
          	System.out.print("Escolha uma opção: ");
             String choice = scanner.nextLine();
@@ -87,6 +88,13 @@ public class MainMenu {
                     }
                     break;
                 case "5": 
+                    if(this.loggedUserId != -1) {
+                        eventView.displayRegisteredEvents(this.loggedUserId);
+                    } else {
+                        System.out.println("Por favor, faça login primeiro.");
+                    }
+                    break;
+                case "6":
                     continueInEventMenu = false;
                     break;
                 default:
