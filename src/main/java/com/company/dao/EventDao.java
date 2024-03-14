@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class EventDao {
@@ -44,21 +45,22 @@ public class EventDao {
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
-        	while (resultSet.next()) {
-        	    int entityId = resultSet.getInt(COL_ENTITY_ID);
-        	    String title = resultSet.getString(COL_TITLE);
-        	    String description = resultSet.getString(COL_DESCRIPTION);
-        	    LocalDateTime createdAt = resultSet.getTimestamp(COL_CREATED_AT).toLocalDateTime();
-        	    LocalDateTime updatedAt = resultSet.getTimestamp(COL_UPDATED_AT).toLocalDateTime();
-        	    LocalDate eventDate = resultSet.getDate(COL_EVENT_DATE).toLocalDate();
-        	    events.add(new Event(entityId, title, description, eventDate, createdAt, updatedAt));
-        	}
+            while (resultSet.next()) {
+                int entityId = resultSet.getInt(COL_ENTITY_ID);
+                String title = resultSet.getString(COL_TITLE);
+                String description = resultSet.getString(COL_DESCRIPTION);
+                LocalDateTime createdAt = resultSet.getTimestamp(COL_CREATED_AT).toLocalDateTime();
+                LocalDateTime updatedAt = resultSet.getTimestamp(COL_UPDATED_AT).toLocalDateTime();
+                Date date = resultSet.getDate(COL_EVENT_DATE);
+                LocalDate eventDate = (date != null) ? date.toLocalDate() : null;
+                events.add(new Event(entityId, title, description, eventDate, createdAt, updatedAt));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return events;
     }
-    
+
     public boolean updateEvent(Event event) {
         String sql = "UPDATE " + TABLE_NAME + " SET " + COL_TITLE + " = ?, " + COL_DESCRIPTION + " = ?, " + COL_EVENT_DATE + " = ?, " + COL_UPDATED_AT + " = ? WHERE " + COL_ENTITY_ID + " = ?";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -67,7 +69,11 @@ public class EventDao {
 
             statement.setString(1, event.getTitle());
             statement.setString(2, event.getDescription());
-            statement.setDate(3, Date.valueOf(event.getEventDate()));
+            if (event.getEventDate() != null) {
+                statement.setDate(3, Date.valueOf(event.getEventDate()));
+            } else {
+                statement.setNull(3, java.sql.Types.DATE);
+            }
             statement.setTimestamp(4, Timestamp.valueOf(event.getUpdatedAt()));
             statement.setInt(5, event.getEntityId());
 
@@ -78,7 +84,8 @@ public class EventDao {
             return false;
         }
     }
-    
+
+
     public Event getEventById(int id) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ENTITY_ID + " = ?";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -93,7 +100,8 @@ public class EventDao {
                 String description = resultSet.getString(COL_DESCRIPTION);
                 LocalDateTime createdAt = resultSet.getTimestamp(COL_CREATED_AT).toLocalDateTime();
                 LocalDateTime updatedAt = resultSet.getTimestamp(COL_UPDATED_AT).toLocalDateTime();
-                LocalDate eventDate = resultSet.getDate(COL_EVENT_DATE).toLocalDate();
+                Date date = resultSet.getDate(COL_EVENT_DATE);
+                LocalDate eventDate = (date != null) ? date.toLocalDate() : null;
 
                 return new Event(entityId, title, description, eventDate, createdAt, updatedAt);
             }

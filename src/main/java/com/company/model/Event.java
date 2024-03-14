@@ -15,13 +15,13 @@ public class Event {
 
     public Event() {}
 
-    public Event(int entityId, String title, String description, LocalDate eventDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Event(int entityId, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate eventDate) {
         this.entityId = entityId;
         this.title = title;
         this.description = description;
-        this.eventDate = eventDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.eventDate = eventDate;
     }
 
     public Event(String title, String description, LocalDate eventDate) {
