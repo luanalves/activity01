@@ -5,6 +5,10 @@ import com.company.controller.UserEventController;
 import java.util.Scanner;
 import com.company.model.Event;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDate;
 
 
 public class EventView {
@@ -25,14 +29,28 @@ public class EventView {
 
         System.out.print("Digite a descrição do evento: ");
         String description = scanner.nextLine();
+        
+        LocalDate eventDate = null;
+        boolean validDate = false;
+        while (!validDate) {
+            System.out.print("Digite a data do evento (Formato: yyyy-MM-dd): ");
+            String eventDateString = scanner.nextLine();
+            try {
+                eventDate = LocalDate.parse(eventDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                validDate = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato de data inválido. Por favor, tente novamente.");
+            }
+        }
 
-        boolean isEventAdded = eventController.addEvent(title, description);
+        boolean isEventAdded = eventController.addEvent(title, description, eventDate);
         if (isEventAdded) {
             System.out.println("Evento adicionado com sucesso!");
         } else {
             System.out.println("Falha ao adicionar o evento.");
         }
     }
+
     
     public void displayEventsList() {
         List<Event> events = eventController.listEvents();
@@ -113,7 +131,8 @@ public class EventView {
         } else {
             System.out.println("### Eventos Registrados ###");
             for (Event event : registeredEvents) {
-                System.out.println("ID: " + event.getEntityId() + ", Título: " + event.getTitle() + ", Descrição: " + event.getDescription());
+                System.out.println("ID: " + event.getEntityId() + ", Título: " + event.getTitle() + ", Descrição: " + event.getDescription()
+                + ", Data do Evento: " + event.getEventDate());
             }
         }
     }

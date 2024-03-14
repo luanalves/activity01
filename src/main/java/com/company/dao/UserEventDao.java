@@ -46,7 +46,7 @@ public class UserEventDao {
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                 LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
 
-                Event event = new Event(eventId, title, description, createdAt, updatedAt);
+                Event event = new Event(eventId, title, description, createdAt, updatedAt,null);
                 events.add(event);
             }
         } catch (SQLException e) {

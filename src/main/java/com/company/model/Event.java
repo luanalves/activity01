@@ -1,6 +1,8 @@
 package com.company.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 public class Event {
     private int entityId;
@@ -8,20 +10,24 @@ public class Event {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDate eventDate;
+
 
     public Event() {}
 
-    public Event(int entityId, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Event(int entityId, String title, String description, LocalDate eventDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.entityId = entityId;
         this.title = title;
         this.description = description;
+        this.eventDate = eventDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Event(String title, String description) {
+    public Event(String title, String description, LocalDate eventDate) {
         this.title = title;
         this.description = description;
+        this.eventDate = eventDate;
     }
 
     public int getEntityId() {
@@ -42,6 +48,10 @@ public class Event {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+    
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
     public void setEntityId(int entityId) {
@@ -68,5 +78,9 @@ public class Event {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
     }
 }
